@@ -21,14 +21,9 @@ const validateResponse = (err, res, body, callback) => {
   if (err) {
     return callback(err, data)
   }
-  if (200 !== res.statusCode) {
-    return callback(res.statusCode, data)
-  }
-  try {
-    data = JSON.parse(xmlJsonParser.toJson(body))
-  }
-  catch(parseErr) {
-    return callback(parseErr, data)
+  data = JSON.parse(xmlJsonParser.toJson(body))
+  if (!Object.keys(data).length) {
+    return callback('Empty object', null)
   }
   if (parseInt(data.root.returncode)) {
     if ('查無案件資料' !== data.root.description) {
