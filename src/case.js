@@ -3,6 +3,7 @@ const json2xml = require('jsontoxml')
 const xmlJsonParser = require('xml2json')
 const utils = require('./utils')
 const config = require('./config')
+
 const get = (caseId, callback) => {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
@@ -19,7 +20,7 @@ const get = (caseId, callback) => {
       if (e) {
         return callback(e, null)
       }
-      callback(e, data.root.records.record)
+      callback(e, (data.root.records) ? data.root.records.record : null)
     })
   })
 }
@@ -40,10 +41,21 @@ const getListByIds = (caseIds, callback) => {
       if (e) {
         return callback(e, null)
       }
-      callback(e, {
-        num: parseInt(data.root.count),
-        cases: data.root.records.record,
-      })
+      const num = parseInt(data.root.count)
+      switch (num) {
+        case 0: return callback(e, {
+          num: num,
+          cases: [],
+        })
+        case 1: return callback(e, {
+          num: num,
+          cases: [data.root.records.record],
+        })
+        default: return callback(e, {
+          num: num,
+          cases: data.root.records.record,
+        })
+      }
     })
   })
 }

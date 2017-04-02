@@ -31,7 +31,10 @@ const validateResponse = (err, res, body, callback) => {
     return callback(parseErr, data)
   }
   if (parseInt(data.root.returncode)) {
-    return callback(data.root.description, null)
+    if ('查無案件資料' !== data.root.description) {
+      return callback(data.root.description, null)
+    }
+    return callback(null, data)
   }
   callback(null, data)
 }
