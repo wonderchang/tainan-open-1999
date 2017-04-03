@@ -1,6 +1,6 @@
 {
   "name": "tainan-open-1999",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tainan open 1999 API",
   "main": "index.js",
   "scripts": {
