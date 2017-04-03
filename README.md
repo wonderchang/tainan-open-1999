@@ -18,7 +18,7 @@ A simple example for request service list on Open 1999.
 ```js
 const tainanOpen1999 = require('tainan-open-1999')
 
-tainanOpen1999.Case.get('UN201704010282', (err, data) => {
+tainanOpen1999.Case.get('UN201704030185', (err, data) => {
   if(err) {
     return console.error(error)
   }
