@@ -1,4 +1,6 @@
 const chai = require('chai')
+const sinon = require('sinon')
+const request = require('request')
 const tainanOpen1999 = require('../index')
 const config = require('./config')
 
@@ -29,6 +31,17 @@ describe('Case.getListByIDs', () => {
     const caseIds = ['U020213', 'UN2014012']
     tainanOpen1999.Case.getListByIDs(caseIds, (error, data) => {
       data.num.should.equal(0)
+      done()
+    })
+  }).timeout(config.MAX_TIMEOUT)
+
+  it('Failed arise from request error', (done) => {
+    const caseIds = ['UN201704020213', 'UN201704010282']
+    const fakeErrMsg = 'Request Error'
+    sinon.stub(request, 'get').yields(fakeErrMsg, null, null)
+    tainanOpen1999.Case.getListByIDs(caseIds, (error, data) => {
+      error.should.equal(fakeErrMsg)
+      request.get.restore()
       done()
     })
   }).timeout(config.MAX_TIMEOUT)

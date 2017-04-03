@@ -1,3 +1,3 @@
 module.exports = {
-  MAX_TIMEOUT: 30000,
+  MAX_TIMEOUT: 60000,
 }

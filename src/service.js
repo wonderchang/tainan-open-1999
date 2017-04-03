@@ -6,7 +6,7 @@ const config = require('./config')
 
 const getList = (callback) => {
   const body = json2xml(utils.wrapValueCdataTag({city_id: config.CITY_ID}))
-  request({
+  request.get({
     url: `${config.API_HOST}/ServiceList.aspx`,
     json: false,
     body: body,

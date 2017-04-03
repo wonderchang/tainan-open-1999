@@ -1,4 +1,6 @@
 const chai = require('chai')
+const sinon = require('sinon')
+const request = require('request')
 const tainanOpen1999 = require('../index')
 const config = require('./config')
 
@@ -73,13 +75,15 @@ describe('Case.getList', () => {
     })
   }).timeout(config.MAX_TIMEOUT)
   
-  it('Failed with erase the time input', (done) => {
+  it('Failed arise from request error', (done) => {
     const startTime = '2017-04-01 10:51:00'
     const endTime = '2017-04-01 10:51:00'
-    const options = {startDate: null}
+    const options = {}
+    const fakeErrMsg = 'Request Error'
+    sinon.stub(request, 'get').yields(fakeErrMsg, null, null)
     tainanOpen1999.Case.getList(startTime, endTime, options, (error, data) => {
-      error.should.equal('日期起迄皆需輸入!!')
-      expect(data).to.be.null
+      error.should.equal(fakeErrMsg)
+      request.get.restore()
       done()
     })
   }).timeout(config.MAX_TIMEOUT)

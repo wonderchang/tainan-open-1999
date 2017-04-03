@@ -10,7 +10,7 @@ const get = (caseID, callback) => {
       city_id: config.CITY_ID,
       service_request_id: caseID, },
   }))
-  request({
+  request.get({
     url: `${config.API_HOST}/ServiceRequestsQuery.aspx`,
     json: false,
     body: body,
@@ -31,7 +31,7 @@ const getListByIDs = (caseIDs, callback) => {
       service_request_id: caseIDs.join(','),
     },
   }))
-  request({
+  request.get({
     url: `${config.API_HOST}/ServiceRequestsQuery.aspx`,
     json: false,
     body: body,
@@ -73,7 +73,7 @@ const getList = (startTime, endTime, options, callback) => {
     endDate: endTime,
   }, options))
   const body = json2xml(utils.wrapValueCdataTag({root: root}))
-  request({
+  request.get({
     url: `${config.API_HOST}/ServiceRequestsQuery.aspx`,
     json: false,
     body: body,
