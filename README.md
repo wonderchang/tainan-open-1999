@@ -45,41 +45,44 @@ The output
   pictures: null
 }
 ```
+---
 
 ## Resource Object Field
 
+#### `Resource:Case`
+
+* `caseId`: A string case ID
+* `status`: A number of status code, `0` for unprocessed, `1` for processed
+* `district`: A string of Tainan City administrative district
+* `serviceName`: A string of service name
+* `subjectName`: A string of subject name
+* `agency`: A string of agency
+* `description`: A string of description
+* `address`: A string of address
+* `latitude`: A string of latitude
+* `longitude`: A string of longitude
+* `create_at`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `update_at`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `pictures`: An array of `<Resource:Picture>`
+
+#### `Resource:Picture`
+
+* `fileName`: A string of image file name
+* `description`: A string of image description
+* `base64`: A string of image base64 encode
+
 #### `Resource:Service`
 
-* `code`: `<String>` of service code
-* `name`: `<String>` of service name
+* `code`: A string of service code
+* `name`: A string of service name
 * `subjects`: An array of `<Resource:Subject>`
 
 #### `Resource:Subject`
 
-* `code`: `<String>` of subject code
-* `name`: `<String>` of subject name
+* `code`: A string of subject code
+* `name`: A string of subject name
 
-#### `Resource:Case`
-
-* `caseId`: `<String>`, case ID that gov provided
-* `status`: `<Number>`, `0` for unprocessed, `1` for processed
-* `district`: `<String>`
-* `serviceName`: `<Resource:Service>.name`
-* `subjectName`: `<Resource:Subject>.name`
-* `agency`: `<String>`,
-* `description`: `<String>`
-* `address`: `<String>`
-* `latitude`: `<String>`
-* `longitude`: `<String>`
-* `create_at`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
-* `update_at`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
-* `pictures`: `<Array>` of `<Resource:Picture>`
-
-#### `Resource:Picture`
-
-* `name`: `<String>`
-* `description`: `<String>`
-* `base64`: `<String>` of image's base64
+---
 
 ## API Reference
 
@@ -97,7 +100,7 @@ The callback function gets passed two arguments. The first argument returned the
 
 #### `get(caseId, callback)`
 
-* `caseId`: `<String>`, case ID
+* `caseId`: A string of case ID
 
 The returned data argument of the callback:
 
@@ -105,23 +108,24 @@ The returned data argument of the callback:
 
 #### `getList(startTime, endTime, [options,] callback)`
 
-* `startTime`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
-* `endTime`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
-
+* `startTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `endTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `options`:
-  * `serviceName`: `<String>` or `<Array>` of `<String>`
+  * `serviceName`: A string or an array of service name
 
 The returned data argument of the callback:
 
-* `num`: `<Number>` of entires
-* `cases`: `<Array>` of `<Resource:Case>`
+* `num`: A number of entry count
+* `cases`: An array of `<Resource:Case>`
 
 #### `getListByIds(caseIds, callback)`
 
+* `caseIds`: An array of case ID string
+
 The returned data argument of the callback:
 
-* `num`: `<Number>` of entires
-* `cases`: `<Array>` of `<Resource:Case>`
+* `num`: A number of entry count
+* `cases`: An array of `<Resource:Case>`
 
 ### Service
 
@@ -129,5 +133,5 @@ The returned data argument of the callback:
 
 The returned data argument of the callback:
 
-* `num`: `<Number>` of entires
-* `services`: `<Array>` of `<Resource:Service>`
+* `num`: A number of entry count
+* `services`: An array of `<Resource:Service>`
