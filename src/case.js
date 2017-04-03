@@ -1,14 +1,41 @@
 const request = require('request')
+const lodash = require('lodash')
 const json2xml = require('jsontoxml')
 const xmlJsonParser = require('xml2json')
 const utils = require('./utils')
 const config = require('./config')
 
-const get = function(caseID, callback) {
+const wrapPictureResource = function(o) {
+  return {
+    fileName: o.fileName,
+    description: o.description,
+    base64: o.file,
+  }
+}
+
+const wrapCaseResource = function(o) {
+  return {
+    caseId: o.service_request_id,
+    status: lodash.isEmpty(o.status) ? 0 : 1,
+    district: o.area,
+    serviceName: o.service_name,
+    subjectName: o.subproject,
+    agency: o.agency,
+    description: o.description,
+    address: o.address_string,
+    latitude: lodash.isEmpty(o.lat) ? null : o.lat,
+    longitude: lodash.isEmpty(o.long) ? null: o.long,
+    create_at: o.requested_datetime,
+    update_at: lodash.isEmpty(o.updated_datetime) ? null : o.updated_datetime,
+    pictures: (!o.Picture) ? null : o.Picture.map(wrapPictureResource)
+  }
+}
+
+const get = function(caseId, callback) {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
-      service_request_id: caseID, },
+      service_request_id: caseId, },
   }))
   request.get({
     url: `${config.API_HOST}/ServiceRequestsQuery.aspx`,
@@ -19,16 +46,16 @@ const get = function(caseID, callback) {
       if (e) {
         return callback(e, null)
       }
-      callback(e, (data.root.records) ? data.root.records.record : null)
+      callback(e, (data.root.records) ? wrapCaseResource(data.root.records.record) : null)
     })
   })
 }
 
-const getListByIDs = function(caseIDs, callback) {
+const getListByIds = function(caseIds, callback) {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
-      service_request_id: caseIDs.join(','),
+      service_request_id: caseIds.join(','),
     },
   }))
   request.get({
@@ -48,11 +75,11 @@ const getListByIDs = function(caseIDs, callback) {
         })
         case 1: return callback(e, {
           num: num,
-          cases: [data.root.records.record],
+          cases: [wrapCaseResource(data.root.records.record)],
         })
         default: return callback(e, {
           num: num,
-          cases: data.root.records.record,
+          cases: data.root.records.record.map(wrapCaseResource),
         })
       }
     })
@@ -100,11 +127,11 @@ const getList = function() {
         })
         case 1: return callback(e, {
           num: num,
-          cases: [data.root.records.record],
+          cases: [wrapCaseResource(data.root.records.record)],
         })
         default: return callback(e, {
           num: num,
-          cases: data.root.records.record,
+          cases: data.root.records.record.map(wrapCaseResource),
         })
       }
     })
@@ -114,5 +141,5 @@ const getList = function() {
 module.exports = {
   get: get,
   getList: getList,
-  getListByIDs: getListByIDs,
+  getListByIds: getListByIds,
 }
