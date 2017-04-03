@@ -30,22 +30,21 @@ The output
 
 ```js
 {
-  caseId: 'UN201704010282',
+  caseId: 'UN201704030185',
   status: 1,
-  district: '安平區',
+  district: '東區',
   serviceName: '違規停車',
   subjectName: '違規停車',
   agency: '臺南市政府警察局勤務指揮中心',
-  description: '安平區怡平路與永華八街口 違規停車',
-  address: '怡平路與永華八街口',
+  description: '東區崇德路，介於林森路一段與監理站間 違停',
+  address: '東區崇德路',
   latitude: null,
   longitude: null,
-  create_at: '2017-04-01 23:30:00',
-  update_at: '2017-04-02 01:24:38',
-  pictures: null
+  create_at: '2017-04-03 19:27:00',
+  update_at: '2017-04-04 02:08:22',
+  pictures: []
 }
 ```
----
 
 ## Resource Object Field
 
@@ -81,8 +80,6 @@ The output
 
 * `code`: A string of subject code
 * `name`: A string of subject name
-
----
 
 ## API Reference
 
