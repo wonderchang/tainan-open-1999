@@ -44,8 +44,8 @@ The output,
   address: '東區崇德路',
   latitude: null,
   longitude: null,
-  create_at: '2017-04-03 19:27:00',
-  update_at: '2017-04-04 02:08:22',
+  createAt: '2017-04-03 19:27:00',
+  updateAt: '2017-04-04 02:08:22',
   pictures: []
 }
 ```
@@ -64,8 +64,8 @@ The output,
 * `address`: A string of address
 * `latitude`: A string of latitude
 * `longitude`: A string of longitude
-* `create_at`: A string of time (`YYYY-MM-DD hh:mm:ss`)
-* `update_at`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `createAt`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `updateAt`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `pictures`: An array of `<Resource:Picture>`
 
 #### `Resource:Picture`
@@ -87,7 +87,7 @@ The output,
 
 ## API Reference
 
-All the method to request the resource are asynchronously handled by the given callback function.
+All the methods of resource request are asynchronously handled by the given callback function.
 
 ```
 Class.method(...argus, (err, data) => {
@@ -95,7 +95,7 @@ Class.method(...argus, (err, data) => {
 })
 ```
 
-The callback function gets passed two arguments. The first argument returned the error message when failed. The second argument returned the data.
+The callback function gets passed two arguments. The first argument returned the error message when failed. The second argument returned the data when succeeded.
 
 ### `Case.get(caseId, callback)`
 
