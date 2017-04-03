@@ -63,12 +63,12 @@ The output
 
 * `caseId`: `<String>`, case ID that gov provided
 * `status`: `<Number>`, `0` for unprocessed, `1` for processed
-* `district`: `<String>`, Tainan City administrative district
-* `service`: `<Resource:Service>.service`
-* `subject`: `<Resource:Subject>`
+* `district`: `<String>`
+* `serviceName`: `<Resource:Service>.name`
+* `subjectName`: `<Resource:Subject>.name`
 * `agency`: `<String>`,
-* `description`: `<String>`: case description
-* `address`: `<String>`, address 
+* `description`: `<String>`
+* `address`: `<String>`
 * `latitude`: `<String>`
 * `longitude`: `<String>`
 * `create_at`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
@@ -95,7 +95,7 @@ The callback function gets passed two arguments. The first argument returned the
 
 ### Case
 
-#### `Case.get(caseId, callback)`
+#### `get(caseId, callback)`
 
 * `caseId`: `<String>`, case ID
 
@@ -103,7 +103,7 @@ The returned data argument of the callback:
 
 * `<Resource:Case>`
 
-#### `Case.getList(startTime, endTime, [options,] callback)`
+#### `getList(startTime, endTime, [options,] callback)`
 
 * `startTime`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
 * `endTime`: `<String>`, follow the time format `YYYY-MM-DD hh:mm:ss`
@@ -116,7 +116,7 @@ The returned data argument of the callback:
 * `num`: `<Number>` of entires
 * `cases`: `<Array>` of `<Resource:Case>`
 
-#### `Case.getListByIds(caseIds, callback)`
+#### `getListByIds(caseIds, callback)`
 
 The returned data argument of the callback:
 
@@ -125,7 +125,7 @@ The returned data argument of the callback:
 
 ### Service
 
-#### `Service.getList(callback)`
+#### `getList(callback)`
 
 The returned data argument of the callback:
 
