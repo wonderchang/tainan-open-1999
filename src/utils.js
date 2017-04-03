@@ -1,5 +1,6 @@
 const json2xml = require('jsontoxml')
 const xmlJsonParser = require('xml2json')
+const lodash = require('lodash')
 
 const wrapValueCdataTag = (obj) => {
   const traverse = (o) => {
@@ -14,6 +15,25 @@ const wrapValueCdataTag = (obj) => {
     return o
   }
   return traverse(obj)
+}
+
+const camel2Snake = (obj) => {
+  const traverse = (o) => {
+    for (let prop in o) {
+      if ('object' === typeof(o[prop])) {
+        const newProp = lodash.snakeCase(prop)
+        o[newProp] = Object.assign({}, o[prop])
+        delete o[prop]
+        traverse(o[newProp])
+      }
+      else {
+        o[lodash.snakeCase(prop)] = o[prop]
+        delete o[prop]
+      }
+    }
+    return o
+  }
+  return traverse(Object.assign({}, obj))
 }
 
 const validateResponse = (err, res, body, callback) => {
@@ -37,4 +57,5 @@ const validateResponse = (err, res, body, callback) => {
 module.exports = {
   wrapValueCdataTag: wrapValueCdataTag,
   validateResponse: validateResponse,
+  camel2Snake: camel2Snake,
 }
