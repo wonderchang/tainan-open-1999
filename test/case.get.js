@@ -10,7 +10,7 @@ const expect = chai.expect
 describe('Case.get', () => {
 
   it('Succeed with valid case ID', (done) => {
-    const caseId = 'UN201704010282'
+    const caseId = 'UN201704030228'
     tainanOpen1999.Case.get(caseId, (error, data) => {
       data.caseId.should.equal(caseId)
       done()

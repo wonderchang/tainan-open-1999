@@ -27,7 +27,7 @@ const wrapCaseResource = function(o) {
     longitude: lodash.isEmpty(o.long) ? null: o.long,
     create_at: o.requested_datetime,
     update_at: lodash.isEmpty(o.updated_datetime) ? null : o.updated_datetime,
-    pictures: (!o.Picture) ? null : o.Picture.map(wrapPictureResource)
+    pictures: ((!o.Pictures) ? [] : (lodash.isArray(o.Pictures.Picture)) ? o.Pictures.Picture : [o.Pictures.Picture]).map(wrapPictureResource),
   }
 }
 
