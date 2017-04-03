@@ -97,7 +97,7 @@ Class.method(...argus, (err, data) => {
 
 The callback function gets passed two arguments. The first argument returned the error message when failed. The second argument returned the data.
 
-#### `Case.get(caseId, callback)`
+### `Case.get(caseId, callback)`
 
 * `caseId`: A string of case ID
 
@@ -105,7 +105,7 @@ The returned data argument of the callback:
 
 * `<Resource:Case>`
 
-#### `Case.getList(startTime, endTime, [options,] callback)`
+### `Case.getList(startTime, endTime, [options,] callback)`
 
 * `startTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `endTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
@@ -117,7 +117,7 @@ The returned data argument of the callback:
 * `num`: A number of entry count
 * `cases`: An array of `<Resource:Case>`
 
-#### `Case.getListByIds(caseIds, callback)`
+### `Case.getListByIds(caseIds, callback)`
 
 * `caseIds`: An array of case ID string
 
@@ -126,7 +126,7 @@ The returned data argument of the callback:
 * `num`: A number of entry count
 * `cases`: An array of `<Resource:Case>`
 
-#### `Service.getList(callback)`
+### `Service.getList(callback)`
 
 The returned data argument of the callback:
 
