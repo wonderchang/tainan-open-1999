@@ -51,12 +51,34 @@ describe('Case.getList', () => {
     })
   }).timeout(config.MAX_TIMEOUT)
 
+  it('Succeed with empty data valid time interval', (done) => {
+    const startTime = '2000-04-01 10:51:00'
+    const endTime = '2000-04-01 10:51:00'
+    const options = {}
+    tainanOpen1999.Case.getList(startTime, endTime, options, (error, data) => {
+      expect(error).to.be.null
+      data.num.should.equal(0)
+      done()
+    })
+  }).timeout(config.MAX_TIMEOUT)
+
   it('Failed with invalid time interval', (done) => {
     const startTime = '2017:00'
     const endTime = '2017-0 16:59:59'
     const options = {}
     tainanOpen1999.Case.getList(startTime, endTime, options, (error, data) => {
       error.should.equal('Invalid time format')
+      expect(data).to.be.null
+      done()
+    })
+  }).timeout(config.MAX_TIMEOUT)
+  
+  it('Failed with erase the time input', (done) => {
+    const startTime = '2017-04-01 10:51:00'
+    const endTime = '2017-04-01 10:51:00'
+    const options = {startDate: null}
+    tainanOpen1999.Case.getList(startTime, endTime, options, (error, data) => {
+      error.should.equal('日期起迄皆需輸入!!')
       expect(data).to.be.null
       done()
     })
