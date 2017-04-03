@@ -86,5 +86,9 @@ describe('Case.getList', () => {
       done()
     })
   }).timeout(config.MAX_TIMEOUT)
+
+  it('Failed with empty argument passed', () => {
+    tainanOpen1999.Case.getList()
+  })
   
 })
