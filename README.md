@@ -17,7 +17,7 @@ Or, using yarn
 	
 ## Example
 
-A simple example for request [a car illegal parking report case](http://1999.tainan.gov.tw/OpenCaseShow.aspx?&FSerialNumber=UN201704030185) on Open 1999.
+A simple example for request a case of car illegal parking report on [Tainan Open 1999](http://1999.tainan.gov.tw/OpenCaseShow.aspx?&FSerialNumber=UN201704030185).
 
 ```js
 const tainanOpen1999 = require('tainan-open-1999')
