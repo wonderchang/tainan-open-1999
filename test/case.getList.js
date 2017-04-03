@@ -12,8 +12,7 @@ describe('Case.getList', () => {
   it('Succeed with valid time interval', (done) => {
     const startTime = '2017-04-01 10:00:00'
     const endTime = '2017-04-01 16:59:59'
-    const options = {}
-    tainanOpen1999.Case.getList(startTime, endTime, options, (error, data) => {
+    tainanOpen1999.Case.getList(startTime, endTime, (error, data) => {
       expect(error).to.be.null
       data.num.should.equal(61)
       done()

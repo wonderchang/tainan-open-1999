@@ -4,7 +4,7 @@ const xmlJsonParser = require('xml2json')
 const utils = require('./utils')
 const config = require('./config')
 
-const get = (caseID, callback) => {
+const get = function(caseID, callback) {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
@@ -24,7 +24,7 @@ const get = (caseID, callback) => {
   })
 }
 
-const getListByIDs = (caseIDs, callback) => {
+const getListByIDs = function(caseIDs, callback) {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
@@ -59,7 +59,19 @@ const getListByIDs = (caseIDs, callback) => {
   })
 }
 
-const getList = (startTime, endTime, options, callback) => {
+const getList = function() {
+  const [startTime, endTime] = [arguments[0], arguments[1]]
+  let options, callback
+  switch (arguments.length) {
+    case 3:
+      [options, callback] = [{}, arguments[2]]
+      break
+    case 4:
+      [options, callback] = [arguments[2], arguments[3]]
+      break
+    default:
+      return
+  }
   const datetimePattern = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/
   if (!datetimePattern.exec(startTime) || !datetimePattern.exec(endTime)) {
     return callback('Invalid time format', null)

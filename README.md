@@ -13,6 +13,6 @@ A NodeJS wrapper of Tainan Open 1999 case report API
 
 #### Case.get(caseID, callback)
 
-#### Case.getList(startTime, endTimes, options, callback)
+#### Case.getList(startTime, endTimes, [options,] callback)
 
 #### Case.getListByIDs(caseIDs, callback)
