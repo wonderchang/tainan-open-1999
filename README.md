@@ -9,15 +9,15 @@ A NodeJS wrapper around [Tainan Open 1999 API](http://1999.tainan.gov.tw/OpenExp
 
 Install module via NPM
 
-	$ npm install tainan-open-1999
+    $ npm install tainan-open-1999
 
 Or, using yarn
 
-  $ yarn
+    $ yarn
 	
 ## Example
 
-A simple example for request a case on Open 1999.
+A simple example for request [a car illegal parking report case](http://1999.tainan.gov.tw/OpenCaseShow.aspx?&FSerialNumber=UN201704030185) on Open 1999.
 
 ```js
 const tainanOpen1999 = require('tainan-open-1999')
