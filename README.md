@@ -10,4 +10,4 @@
 
 #### Case.get(caseID, callback)
 
-#### Case.getListByIds(caseIDs, callback)
+#### Case.getListByIDs(caseIDs, callback)

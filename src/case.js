@@ -4,12 +4,11 @@ const xmlJsonParser = require('xml2json')
 const utils = require('./utils')
 const config = require('./config')
 
-const get = (caseId, callback) => {
+const get = (caseID, callback) => {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
-      service_request_id: caseId,
-    },
+      service_request_id: caseID, },
   }))
   request({
     url: `${config.API_HOST}/ServiceRequestsQuery.aspx`,
@@ -25,11 +24,11 @@ const get = (caseId, callback) => {
   })
 }
 
-const getListByIds = (caseIds, callback) => {
+const getListByIDs = (caseIDs, callback) => {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
-      service_request_id: caseIds.join(','),
+      service_request_id: caseIDs.join(','),
     },
   }))
   request({
@@ -62,5 +61,5 @@ const getListByIds = (caseIds, callback) => {
 
 module.exports = {
   get: get,
-  getListByIds: getListByIds,
+  getListByIDs: getListByIDs,
 }
