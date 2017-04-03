@@ -10,10 +10,14 @@ A NodeJS wrapper around [Tainan Open 1999 API](http://1999.tainan.gov.tw/OpenExp
 Install module via NPM
 
 	$ npm install tainan-open-1999
+
+Or, using yarn
+
+  $ yarn
 	
 ## Example
 
-A simple example for request service list on Open 1999.
+A simple example for request a case on Open 1999.
 
 ```js
 const tainanOpen1999 = require('tainan-open-1999')
@@ -26,7 +30,7 @@ tainanOpen1999.Case.get('UN201704030185', (err, data) => {
 })
 ```
 
-The output
+The output,
 
 ```js
 {
@@ -93,9 +97,7 @@ Class.method(...argus, (err, data) => {
 
 The callback function gets passed two arguments. The first argument returned the error message when failed. The second argument returned the data.
 
-### Case
-
-#### `get(caseId, callback)`
+#### `Case.get(caseId, callback)`
 
 * `caseId`: A string of case ID
 
@@ -103,7 +105,7 @@ The returned data argument of the callback:
 
 * `<Resource:Case>`
 
-#### `getList(startTime, endTime, [options,] callback)`
+#### `Case.getList(startTime, endTime, [options,] callback)`
 
 * `startTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `endTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
@@ -115,7 +117,7 @@ The returned data argument of the callback:
 * `num`: A number of entry count
 * `cases`: An array of `<Resource:Case>`
 
-#### `getListByIds(caseIds, callback)`
+#### `Case.getListByIds(caseIds, callback)`
 
 * `caseIds`: An array of case ID string
 
@@ -124,9 +126,7 @@ The returned data argument of the callback:
 * `num`: A number of entry count
 * `cases`: An array of `<Resource:Case>`
 
-### Service
-
-#### `getList(callback)`
+#### `Service.getList(callback)`
 
 The returned data argument of the callback:
 
