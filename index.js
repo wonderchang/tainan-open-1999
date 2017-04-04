@@ -1,7 +1,7 @@
 const {
   getCase,
   getCases,
-  getCasesByIds,
+  getCasesByIds
 } = require('./src/case')
 
 const {
@@ -12,5 +12,5 @@ module.exports = {
   getCase: getCase,
   getCases: getCases,
   getCasesByIds: getCasesByIds,
-  getServices: getServices,
+  getServices: getServices
 }

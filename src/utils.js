@@ -5,10 +5,9 @@ const lodash = require('lodash')
 const wrapValueCdataTag = (obj) => {
   const traverse = (o) => {
     for (let prop in o) {
-      if ('object' === typeof(o[prop])) {
+      if (typeof (o[prop]) === 'object') {
         traverse(o[prop])
-      }
-      else {
+      } else {
         o[prop] = json2xml.cdata(`${o[prop]}`)
       }
     }
@@ -20,13 +19,12 @@ const wrapValueCdataTag = (obj) => {
 const camel2Snake = (obj) => {
   const traverse = (o) => {
     for (let prop in o) {
-      if ('object' === typeof(o[prop])) {
+      if (typeof (o[prop]) === 'object') {
         const newProp = lodash.snakeCase(prop)
         o[newProp] = Object.assign({}, o[prop])
         delete o[prop]
         traverse(o[newProp])
-      }
-      else {
+      } else {
         o[lodash.snakeCase(prop)] = o[prop]
         delete o[prop]
       }
@@ -46,7 +44,7 @@ const validateResponse = (err, res, body, callback) => {
     return callback('Empty object', null)
   }
   if (parseInt(data.root.returncode)) {
-    if ('查無案件資料' !== data.root.description) {
+    if (data.root.description !== '查無案件資料') {
       return callback(data.root.description, null)
     }
     return callback(null, data)
@@ -57,5 +55,5 @@ const validateResponse = (err, res, body, callback) => {
 module.exports = {
   wrapValueCdataTag: wrapValueCdataTag,
   validateResponse: validateResponse,
-  camel2Snake: camel2Snake,
+  camel2Snake: camel2Snake
 }
