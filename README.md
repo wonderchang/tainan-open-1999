@@ -22,7 +22,7 @@ A simple example for request a case of car illegal parking report on [Tainan Ope
 ```js
 const tainanOpen1999 = require('tainan-open-1999')
 
-tainanOpen1999.Case.get('UN201704030185', (err, data) => {
+tainanOpen1999.getCase('UN201704030185', (err, data) => {
   if (err) {
     return console.error(error)
   }
