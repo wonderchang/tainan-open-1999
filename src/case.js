@@ -92,9 +92,9 @@ const getCases = function() {
   else {
     return
   }
-  const [startTime, endTime] = [arguments[0], arguments[1]]
+  const [startFrom, endTo] = [arguments[0], arguments[1]]
   const datetimePattern = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/
-  if (!datetimePattern.exec(startTime) || !datetimePattern.exec(endTime)) {
+  if (!datetimePattern.exec(startFrom) || !datetimePattern.exec(endTo)) {
     return callback('Invalid time format', null)
   }
   if (options.serviceName && Array.isArray(options.serviceName)) {
@@ -102,8 +102,8 @@ const getCases = function() {
   }
   const root = utils.camel2Snake(Object.assign({
     cityId: config.CITY_ID,
-    startDate: startTime,
-    endDate: endTime,
+    startDate: startFrom,
+    endDate: endTo,
   }, options))
   const body = json2xml(utils.wrapValueCdataTag({root: root}))
   request.get({
