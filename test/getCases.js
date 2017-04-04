@@ -11,11 +11,13 @@ const expect = chai.expect
 
 chai.use(dirtyChai)
 
-describe('getCases', () => {
+describe('getCases test cases', () => {
   it('Succeed with valid time interval', (done) => {
-    const startTime = '2017-04-01 10:00:00'
-    const endTime = '2017-04-01 16:59:59'
-    tainanOpen1999.getCases(startTime, endTime, (error, data) => {
+    const options = {
+      startFrom: '2017-04-01 10:00:00',
+      endTo: '2017-04-01 16:59:59'
+    }
+    tainanOpen1999.getCases(options, (error, data) => {
       expect(error).to.be.null()
       data.num.should.equal(61)
       done()
@@ -23,10 +25,12 @@ describe('getCases', () => {
   }).timeout(config.MAX_TIMEOUT)
 
   it('Succeed with single service and valid time interval', (done) => {
-    const startTime = '2017-04-01 10:00:00'
-    const endTime = '2017-04-01 16:59:59'
-    const options = {serviceName: '違規停車'}
-    tainanOpen1999.getCases(startTime, endTime, options, (error, data) => {
+    const options = {
+      startFrom: '2017-04-01 10:00:00',
+      endTo: '2017-04-01 16:59:59',
+      serviceName: '違規停車'
+    }
+    tainanOpen1999.getCases(options, (error, data) => {
       expect(error).to.be.null()
       data.num.should.equal(33)
       done()
@@ -34,10 +38,12 @@ describe('getCases', () => {
   }).timeout(config.MAX_TIMEOUT)
 
   it('Succeed with multiple services and valid time interval', (done) => {
-    const startTime = '2017-04-01 10:00:00'
-    const endTime = '2017-04-01 16:59:59'
-    const options = {serviceName: ['違規停車', '道路維修']}
-    tainanOpen1999.getCases(startTime, endTime, options, (error, data) => {
+    const options = {
+      startFrom: '2017-04-01 10:00:00',
+      endTo: '2017-04-01 16:59:59',
+      serviceName: ['違規停車', '道路維修']
+    }
+    tainanOpen1999.getCases(options, (error, data) => {
       expect(error).to.be.null()
       data.num.should.equal(36)
       done()
@@ -45,32 +51,45 @@ describe('getCases', () => {
   }).timeout(config.MAX_TIMEOUT)
 
   it('Succeed with valid time interval at tick', (done) => {
-    const startTime = '2017-04-01 10:51:00'
-    const endTime = '2017-04-01 10:51:00'
-    const options = {serviceName: ['違規停車', '道路維修']}
-    tainanOpen1999.getCases(startTime, endTime, options, (error, data) => {
+    const options = {
+      startFrom: '2017-04-01 10:51:00',
+      endTo: '2017-04-01 10:51:00',
+      serviceName: ['違規停車', '道路維修']
+    }
+    tainanOpen1999.getCases(options, (error, data) => {
       expect(error).to.be.null()
       data.num.should.equal(1)
       done()
     })
   }).timeout(config.MAX_TIMEOUT)
 
-  it('Succeed with empty data valid time interval', (done) => {
-    const startTime = '2000-04-01 10:51:00'
-    const endTime = '2000-04-01 10:51:00'
-    const options = {}
-    tainanOpen1999.getCases(startTime, endTime, options, (error, data) => {
+  it('Succeed with valid time interval but empty data', (done) => {
+    const options = {
+      startFrom: '2000-04-01 10:51:00',
+      endTo: '2000-04-01 10:51:00'
+    }
+    tainanOpen1999.getCases(options, (error, data) => {
       expect(error).to.be.null()
       data.num.should.equal(0)
       done()
     })
   }).timeout(config.MAX_TIMEOUT)
 
-  it('Failed with invalid time interval', (done) => {
-    const startTime = '2017:00'
-    const endTime = '2017-0 16:59:59'
+  it('Failed with empty options', (done) => {
     const options = {}
-    tainanOpen1999.getCases(startTime, endTime, options, (error, data) => {
+    tainanOpen1999.getCases(options, (error, data) => {
+      error.should.equal('Require time interval options (startFrom, endTo)')
+      expect(data).to.be.null()
+      done()
+    })
+  }).timeout(config.MAX_TIMEOUT)
+
+  it('Failed with invalid time interval', (done) => {
+    const options = {
+      startFrom: '2017:00',
+      endTo: '2017-0 16:59:59'
+    }
+    tainanOpen1999.getCases(options, (error, data) => {
       error.should.equal('Invalid time format')
       expect(data).to.be.null()
       done()
@@ -78,19 +97,16 @@ describe('getCases', () => {
   }).timeout(config.MAX_TIMEOUT)
 
   it('Failed arise from request error', (done) => {
-    const startTime = '2017-04-01 10:51:00'
-    const endTime = '2017-04-01 10:51:00'
-    const options = {}
+    const options = {
+      startFrom: '2017-04-01 10:51:00',
+      endTo: '2017-04-01 10:51:00'
+    }
     const fakeErrMsg = 'Request Error'
     sinon.stub(request, 'get').yields(fakeErrMsg, null, null)
-    tainanOpen1999.getCases(startTime, endTime, options, (error, data) => {
+    tainanOpen1999.getCases(options, (error, data) => {
       error.should.equal(fakeErrMsg)
       request.get.restore()
       done()
     })
   }).timeout(config.MAX_TIMEOUT)
-
-  it('Failed with empty argument passed', () => {
-    tainanOpen1999.getCases()
-  })
 })

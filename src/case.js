@@ -1,5 +1,6 @@
 const request = require('request')
 const lodash = require('lodash')
+const xmlJsonParser = require('xml2json')
 const json2xml = require('jsontoxml')
 const utils = require('./utils')
 const config = require('./config')
@@ -12,7 +13,7 @@ const wrapPictureResource = (o) => ({
 
 const wrapCaseResource = (o) => ({
   caseId: o.service_request_id,
-  status: lodash.isEmpty(o.status) ? 0 : 1,
+  status: lodash.isEmpty(o.status) ? '處理中' : o.status,
   district: o.area,
   serviceName: o.service_name,
   subjectName: o.subproject,
@@ -26,7 +27,47 @@ const wrapCaseResource = (o) => ({
   pictures: ((!o.Pictures) ? [] : (lodash.isArray(o.Pictures.Picture)) ? o.Pictures.Picture : [o.Pictures.Picture]).map(wrapPictureResource)
 })
 
-const getCase = function (caseId, callback) {
+const addCase = (options, callback) => {
+  const root = Object.assign(
+    { city_id: config.CITY_ID },
+    (options.serviceName) ? { service_name: options.serviceName } : {},
+    (options.subjectName) ? { subproject: options.subjectName } : {},
+    (options.district) ? { area: options.district } : {},
+    (options.address) ? { address_string: options.address } : {},
+    (options.description) ? { description: options.description } : {},
+    (options.reporterName) ? { name: options.reporterName } : {},
+    (options.reporterPhoneNumber) ? { phone: options.reporterPhoneNumber } : {},
+    (options.reporterEmail) ? { email: options.reporterEmail } : {},
+    (options.latitude) ? { lat: options.latitude } : {},
+    (options.longitude) ? { long: options.longitude } : {},
+    (options.pictures) ? {
+      pictures: {
+        picture: options.pictures.map(p => ({
+          fileName: p.fileName,
+          description: p.description,
+          file: p.base64
+        }))
+      }
+    } : {}
+  )
+  const body = json2xml(utils.wrapValueCdataTag({ root: root }))
+  request.post({
+    url: `${config.API_HOST}/ServiceRequestAdd.aspx`,
+    json: false,
+    body: body
+  }, (err, res, data) => {
+    if (err) {
+      return callback(err, null)
+    }
+    data = JSON.parse(xmlJsonParser.toJson(data))
+    if (parseInt(data.root.returncode)) {
+      return callback(data.root.description, null)
+    }
+    callback(err, { caseId: data.root.service_request_id })
+  })
+}
+
+const getCase = (caseId, callback) => {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
@@ -46,7 +87,7 @@ const getCase = function (caseId, callback) {
   })
 }
 
-const getCasesByIds = function (caseIds, callback) {
+const getCasesByIds = (caseIds, callback) => {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
@@ -81,18 +122,12 @@ const getCasesByIds = function (caseIds, callback) {
   })
 }
 
-const getCases = function () {
-  let options, callback
-  if (arguments.length === 3) {
-    [options, callback] = [{}, arguments[2]]
-  } else if (arguments.length >= 4) {
-    [options, callback] = [arguments[2], arguments[3]]
-  } else {
-    return
+const getCases = (options, callback) => {
+  if (!options.startFrom || !options.endTo) {
+    return callback('Require time interval options (startFrom, endTo)', null)
   }
-  const [startFrom, endTo] = [arguments[0], arguments[1]]
-  const datetimePattern = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/
-  if (!datetimePattern.exec(startFrom) || !datetimePattern.exec(endTo)) {
+  const dtPattern = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/
+  if (!dtPattern.exec(options.startFrom) || !dtPattern.exec(options.endTo)) {
     return callback('Invalid time format', null)
   }
   if (options.serviceName && Array.isArray(options.serviceName)) {
@@ -100,8 +135,8 @@ const getCases = function () {
   }
   const root = utils.camel2Snake(Object.assign({
     cityId: config.CITY_ID,
-    startDate: startFrom,
-    endDate: endTo
+    startDate: options.startFrom,
+    endDate: options.endTo
   }, options))
   const body = json2xml(utils.wrapValueCdataTag({root: root}))
   request.get({
@@ -133,6 +168,7 @@ const getCases = function () {
 }
 
 module.exports = {
+  addCase: addCase,
   getCase: getCase,
   getCases: getCases,
   getCasesByIds: getCasesByIds
