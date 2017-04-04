@@ -23,7 +23,7 @@ A simple example for request a case of car illegal parking report on [Tainan Ope
 const tainanOpen1999 = require('tainan-open-1999')
 
 tainanOpen1999.Case.get('UN201704030185', (err, data) => {
-  if(err) {
+  if (err) {
     return console.error(error)
   }
   console.log(data)
@@ -99,6 +99,29 @@ method(...argus, (err, data) => {
 
 The callback function gets passed two arguments. The first argument returned the error message when failed. The second argument returned the data when succeeded.
 
+### `addCase(options, callback)`
+
+Those options below are reuqired:
+
+* `serviceName`: A string of the service name
+* `subjectName`: A string of the subject name
+* `district`: A string of the district
+* `address`: A string of the address
+* `description`: A string of the description
+* `reporterName`: A string of the reporter name
+* `reporterPhoneNumber`: A string of the reporter number
+
+Others are optional:
+
+* `reporterEmail`: A string of reporter email
+* `latitude`: A string of latitude
+* `longitude`: A string of longtitude
+* `pictures`: An array of `<Object:Picture>`
+
+The return data argument of the callback:
+
+* `caseId`: A string of the case ID
+
 ### `getCase(caseId, callback)`
 
 * `caseId`: A string of case ID
@@ -138,26 +161,3 @@ The returned data argument of the callback:
 
 * `num`: A number of entry count
 * `services`: An array of `<Object:Service>`
-
-### `addCase(options, callback)
-
-Those options below are reuqired:
-
-* `serviceName`: A string of the service name
-* `subjectName`: A string of the subject name
-* `district`: A string of the district
-* `address`: A string of the address
-* `description`: A string of the description
-* `reporterName`: A string of the reporter name
-* `reporterPhoneNumber`: A string of the reporter number
-
-Others are optional:
-
-* `reporterEmail`: A string of reporter email
-* `latitude`: A string of latitude
-* `longitude`: A string of longtitude
-* `pictures`: An array of `<Object:Picture>`
-
-The return data argument of the callback:
-
-* `caseId`: A string of the case ID
