@@ -35,7 +35,7 @@ The output,
 ```js
 {
   caseId: 'UN201704030185',
-  status: 1,
+  status: '已完工',
   district: '東區',
   serviceName: '違規停車',
   subjectName: '違規停車',
@@ -56,36 +56,36 @@ The responsed resources are preprocessed by wrapping a proper object structure f
 
 #### `Object:Case`
 
-* `caseId`: A string case ID
-* `status`: A number of status code, `0` for unprocessed, `1` for processed
+* `caseId`: A string the case ID
+* `status`: A number of the case status code, `0` for unprocessed, `1` for processed
 * `district`: A string of Tainan City administrative district
-* `serviceName`: A string of service name
-* `subjectName`: A string of subject name
-* `agency`: A string of agency
-* `description`: A string of description
-* `address`: A string of address
-* `latitude`: A string of latitude
-* `longitude`: A string of longitude
+* `serviceName`: A string of the service name
+* `subjectName`: A string of the subject name
+* `agency`: A string of the agency
+* `description`: A string of the case description
+* `address`: A string of the address
+* `latitude`: A string of the latitude
+* `longitude`: A string of the longitude
 * `createAt`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `updateAt`: A string of time (`YYYY-MM-DD hh:mm:ss`)
-* `pictures`: An array of `<Resource:Picture>`
+* `pictures`: An array of `<Object:Picture>`
 
 #### `Object:Picture`
 
-* `fileName`: A string of image file name
-* `description`: A string of image description
-* `base64`: A string of image base64 encode
+* `fileName`: A string of the image file name
+* `description`: A string of the image description
+* `base64`: A string of the image base64 encode
 
 #### `Object:Service`
 
-* `code`: A string of service code
-* `name`: A string of service name
-* `subjects`: An array of `<Resource:Subject>`
+* `code`: A string of the service code
+* `name`: A string of the service name
+* `subjects`: An array of `<Object:Subject>`
 
 #### `Object:Subject`
 
-* `code`: A string of subject code
-* `name`: A string of subject name
+* `code`: A string of the subject code
+* `name`: A string of the subject name
 
 ## API Reference
 
@@ -107,12 +107,16 @@ The returned data argument of the callback:
 
 * `<Object:Case>`
 
-### `getCases(startFrom, endTo, [options,] callback)`
+### `getCases(options, callback)`
+
+Those options below are reuqired:
 
 * `startFrom`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `endTo`: A string of time (`YYYY-MM-DD hh:mm:ss`)
-* `options`:
-  * `serviceName`: A string or an array of service name
+
+Others are optional:
+
+* `serviceName`: A string or an array of service name
 
 The returned data argument of the callback:
 
@@ -134,3 +138,26 @@ The returned data argument of the callback:
 
 * `num`: A number of entry count
 * `services`: An array of `<Object:Service>`
+
+### `addCase(options, callback)
+
+Those options below are reuqired:
+
+* `serviceName`: A string of the service name
+* `subjectName`: A string of the subject name
+* `district`: A string of the district
+* `address`: A string of the address
+* `description`: A string of the description
+* `reporterName`: A string of the reporter name
+* `reporterPhoneNumber`: A string of the reporter number
+
+Others are optional:
+
+* `reporterEmail`: A string of reporter email
+* `latitude`: A string of latitude
+* `longitude`: A string of longtitude
+* `pictures`: An array of `<Object:Picture>`
+
+The return data argument of the callback:
+
+* `caseId`: A string of the case ID
