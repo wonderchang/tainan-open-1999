@@ -5,33 +5,29 @@ const xmlJsonParser = require('xml2json')
 const utils = require('./utils')
 const config = require('./config')
 
-const wrapPictureResource = function(o) {
-  return {
-    fileName: o.fileName,
-    description: o.description,
-    base64: o.file,
-  }
-}
+const wrapPictureResource = (o) => ({
+  fileName: o.fileName,
+  description: o.description,
+  base64: o.file,
+})
 
-const wrapCaseResource = function(o) {
-  return {
-    caseId: o.service_request_id,
-    status: lodash.isEmpty(o.status) ? 0 : 1,
-    district: o.area,
-    serviceName: o.service_name,
-    subjectName: o.subproject,
-    agency: o.agency,
-    description: o.description,
-    address: o.address_string,
-    latitude: lodash.isEmpty(o.lat) ? null : o.lat,
-    longitude: lodash.isEmpty(o.long) ? null: o.long,
-    createAt: o.requested_datetime,
-    updateAt: lodash.isEmpty(o.updated_datetime) ? null : o.updated_datetime,
-    pictures: ((!o.Pictures) ? [] : (lodash.isArray(o.Pictures.Picture)) ? o.Pictures.Picture : [o.Pictures.Picture]).map(wrapPictureResource),
-  }
-}
+const wrapCaseResource = (o) => ({
+  caseId: o.service_request_id,
+  status: lodash.isEmpty(o.status) ? 0 : 1,
+  district: o.area,
+  serviceName: o.service_name,
+  subjectName: o.subproject,
+  agency: o.agency,
+  description: o.description,
+  address: o.address_string,
+  latitude: lodash.isEmpty(o.lat) ? null : o.lat,
+  longitude: lodash.isEmpty(o.long) ? null: o.long,
+  createAt: o.requested_datetime,
+  updateAt: lodash.isEmpty(o.updated_datetime) ? null : o.updated_datetime,
+  pictures: ((!o.Pictures) ? [] : (lodash.isArray(o.Pictures.Picture)) ? o.Pictures.Picture : [o.Pictures.Picture]).map(wrapPictureResource),
+})
 
-const get = function(caseId, callback) {
+const getCase = function(caseId, callback) {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
@@ -51,7 +47,7 @@ const get = function(caseId, callback) {
   })
 }
 
-const getListByIds = function(caseIds, callback) {
+const getCasesByIds = function(caseIds, callback) {
   const body = json2xml(utils.wrapValueCdataTag({
     root: {
       city_id: config.CITY_ID,
@@ -86,7 +82,7 @@ const getListByIds = function(caseIds, callback) {
   })
 }
 
-const getList = function() {
+const getCases = function() {
   if (3 === arguments.length) {
     [options, callback] = [{}, arguments[2]]
   }
@@ -139,7 +135,7 @@ const getList = function() {
 }
 
 module.exports = {
-  get: get,
-  getList: getList,
-  getListByIds: getListByIds,
+  getCase: getCase,
+  getCases: getCases,
+  getCasesByIds: getCasesByIds,
 }

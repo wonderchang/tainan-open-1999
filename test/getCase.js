@@ -7,11 +7,11 @@ const config = require('./config')
 const should = chai.should()
 const expect = chai.expect
 
-describe('Case.get', () => {
+describe('getCase', () => {
 
   it('Succeed with valid case ID', (done) => {
     const caseId = 'UN201704030228'
-    tainanOpen1999.Case.get(caseId, (error, data) => {
+    tainanOpen1999.getCase(caseId, (error, data) => {
       data.caseId.should.equal(caseId)
       done()
     })
@@ -19,7 +19,7 @@ describe('Case.get', () => {
   
   it('Failed with invalid Case ID', (done) => {
     const caseId = 'UN20172'
-    tainanOpen1999.Case.get(caseId, (error, data) => {
+    tainanOpen1999.getCase(caseId, (error, data) => {
       expect(data).to.be.null
       done()
     })
@@ -29,7 +29,7 @@ describe('Case.get', () => {
     const caseId = 'UN201704010282'
     const fakeErrMsg = 'Request Error'
     sinon.stub(request, 'get').yields(fakeErrMsg, null, null)
-    tainanOpen1999.Case.get(caseId, (error, data) => {
+    tainanOpen1999.getCase(caseId, (error, data) => {
       error.should.equal(fakeErrMsg)
       request.get.restore()
       done()

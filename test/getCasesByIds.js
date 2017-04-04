@@ -6,11 +6,11 @@ const config = require('./config')
 
 const should = chai.should()
 
-describe('Case.getListByIDs', () => {
+describe('getCasesByIds', () => {
 
   it('Succeed with two valid case IDs', (done) => {
     const caseIds = ['UN201704020213', 'UN201704010282']
-    tainanOpen1999.Case.getListByIds(caseIds, (error, data) => {
+    tainanOpen1999.getCasesByIds(caseIds, (error, data) => {
       data.num.should.equal(caseIds.length)
       data.cases[0].caseId.should.equal(caseIds[0])
       data.cases[1].caseId.should.equal(caseIds[1])
@@ -20,7 +20,7 @@ describe('Case.getListByIDs', () => {
 
   it('Failed with one of invalid Case ID', (done) => {
     const caseIds = ['UN201', 'UN201704010282']
-    tainanOpen1999.Case.getListByIds(caseIds, (error, data) => {
+    tainanOpen1999.getCasesByIds(caseIds, (error, data) => {
       data.num.should.equal(1)
       data.cases[0].caseId.should.equal('UN201704010282')
       done()
@@ -29,7 +29,7 @@ describe('Case.getListByIDs', () => {
 
   it('Failed with both invalid Case IDs', (done) => {
     const caseIds = ['U020213', 'UN2014012']
-    tainanOpen1999.Case.getListByIds(caseIds, (error, data) => {
+    tainanOpen1999.getCasesByIds(caseIds, (error, data) => {
       data.num.should.equal(0)
       done()
     })
@@ -39,7 +39,7 @@ describe('Case.getListByIDs', () => {
     const caseIds = ['UN201704020213', 'UN201704010282']
     const fakeErrMsg = 'Request Error'
     sinon.stub(request, 'get').yields(fakeErrMsg, null, null)
-    tainanOpen1999.Case.getListByIds(caseIds, (error, data) => {
+    tainanOpen1999.getCasesByIds(caseIds, (error, data) => {
       error.should.equal(fakeErrMsg)
       request.get.restore()
       done()

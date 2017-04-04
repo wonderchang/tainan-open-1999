@@ -6,10 +6,10 @@ const config = require('./config')
 
 const should = chai.should()
 
-describe('Service.getList', () => {
+describe('getServices', () => {
 
   it('Succeed', (done) => {
-    tainanOpen1999.Service.getList((error, data) => {
+    tainanOpen1999.getServices((error, data) => {
       data.num.should.equal(10)
       done()
     })
@@ -18,7 +18,7 @@ describe('Service.getList', () => {
   it('Failed arise from request error', (done) => {
     const fakeErrMsg = 'Request Error'
     sinon.stub(request, 'get').yields(fakeErrMsg, null, null)
-    tainanOpen1999.Service.getList((error, data) => {
+    tainanOpen1999.getServices((error, data) => {
       error.should.equal(fakeErrMsg)
       request.get.restore()
       done()

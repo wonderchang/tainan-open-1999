@@ -17,7 +17,7 @@ const wrapServiceResource = (o) => ({
   })
 })
 
-const getList = (callback) => {
+const getServices = function(callback) {
   const body = json2xml(utils.wrapValueCdataTag({city_id: config.CITY_ID}))
   request.get({
     url: `${config.API_HOST}/ServiceList.aspx`,
@@ -37,5 +37,5 @@ const getList = (callback) => {
 }
 
 module.exports = {
-  getList: getList,
+  getServices: getServices,
 }

@@ -50,9 +50,11 @@ The output,
 }
 ```
 
-## Resource Object Field
+## Resource Object
 
-#### `Resource:Case`
+The responsed resources are preprocessed by wrapping a proper object structure for usage. Those objects below will be mentioned in the entire document..
+
+#### `Object:Case`
 
 * `caseId`: A string case ID
 * `status`: A number of status code, `0` for unprocessed, `1` for processed
@@ -68,19 +70,19 @@ The output,
 * `updateAt`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `pictures`: An array of `<Resource:Picture>`
 
-#### `Resource:Picture`
+#### `Object:Picture`
 
 * `fileName`: A string of image file name
 * `description`: A string of image description
 * `base64`: A string of image base64 encode
 
-#### `Resource:Service`
+#### `Object:Service`
 
 * `code`: A string of service code
 * `name`: A string of service name
 * `subjects`: An array of `<Resource:Subject>`
 
-#### `Resource:Subject`
+#### `Object:Subject`
 
 * `code`: A string of subject code
 * `name`: A string of subject name
@@ -90,45 +92,45 @@ The output,
 All the methods of resource request are asynchronously handled by the given callback function.
 
 ```
-Class.method(...argus, (err, data) => {
+method(...argus, (err, data) => {
   // access the resource
 })
 ```
 
 The callback function gets passed two arguments. The first argument returned the error message when failed. The second argument returned the data when succeeded.
 
-### `Case.get(caseId, callback)`
+### `getCase(caseId, callback)`
 
 * `caseId`: A string of case ID
 
 The returned data argument of the callback:
 
-* `<Resource:Case>`
+* `<Object:Case>`
 
-### `Case.getList(startTime, endTime, [options,] callback)`
+### `getCases(startFrom, endTo, [options,] callback)`
 
-* `startTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
-* `endTime`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `startFrom`: A string of time (`YYYY-MM-DD hh:mm:ss`)
+* `endTo`: A string of time (`YYYY-MM-DD hh:mm:ss`)
 * `options`:
   * `serviceName`: A string or an array of service name
 
 The returned data argument of the callback:
 
 * `num`: A number of entry count
-* `cases`: An array of `<Resource:Case>`
+* `cases`: An array of `<Object:Case>`
 
-### `Case.getListByIds(caseIds, callback)`
+### `getCasesByids(caseIds, callback)`
 
 * `caseIds`: An array of case ID string
 
 The returned data argument of the callback:
 
 * `num`: A number of entry count
-* `cases`: An array of `<Resource:Case>`
+* `cases`: An array of `<Object:Case>`
 
-### `Service.getList(callback)`
+### `getServices(callback)`
 
 The returned data argument of the callback:
 
 * `num`: A number of entry count
-* `services`: An array of `<Resource:Service>`
+* `services`: An array of `<Object:Service>`
