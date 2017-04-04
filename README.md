@@ -119,7 +119,7 @@ The returned data argument of the callback:
 * `num`: A number of entry count
 * `cases`: An array of `<Object:Case>`
 
-### `getCasesByids(caseIds, callback)`
+### `getCasesByIds(caseIds, callback)`
 
 * `caseIds`: An array of case ID string
 
